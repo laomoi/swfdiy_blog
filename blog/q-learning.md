@@ -1,9 +1,15 @@
+
 <!--
 author: luodx
-date: 2014-01-20 
-title: 关于Q-learning(附上练习示例) 
+head: 
+date: 2014-01-20
+title: 关于Q-learning
+tags: 
+category: misc 
 status: publish
---> 
+summary: 
+-->
+
 今天有人在微博贴了一个这个 http://sarvagyavaish.github.io/FlappyBirdRL/
 
 大意就是(sarvagyavaish)在玩flappy bird, 他想写一个类似按键精灵的脚本, 采用Q-learning, 来让小鸟自动闯关. 由于手机上截图耗时久, 没法采集到 输入跟状态变化的对应关系, 于是利用了一个开源的JS版本的flappy bird , 来里面植入自己的训练代码, 这样来实现目的.

@@ -3,8 +3,8 @@ author: luodx
 head: 
 date: 2015-08-07
 title: 正则和LPEG 入门
-tags: render 
-category: cocos2d-x
+tags: lua 
+category: lua
 status: publish
 summary: 
 -->
