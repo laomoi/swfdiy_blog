@@ -4,6 +4,7 @@ date: 2015-08-07
 title: 正则和LPEG 入门 
 status: publish
 --> 
+
 ###一. 什么是正则 
 Regular Expression ， 中文为正则表达式， 它是指用一个表达式来描述字符串的子字符串的特征， 通常用来进行字符串搜索，匹配， 替换。
 
@@ -12,13 +13,17 @@ Regular Expression ， 中文为正则表达式， 它是指用一个表达式�
 这个是一个正则的例子： \d\d\d\d-\d\d-\d\d
 
 \d表示一个数字字符， 那么这个表达式表达的是特征是： 4个数字-2个数字-2个数字， 这个通常用来查找字符串里的日期。
+
 ###二. 正则的标准 
+
 正则早期出现于文本处理工具比如awk,sed,后来有了POSIX标准， 作为文本处理神器的perl， 不甘落后， 在perl里进一步扩展了正则的功能，
 
 于是后面python等语言纷纷使用perl正则标准， 所以我们现在通常提到的正则标准就是perl标准。
 
 lua里面也有字符串匹配，那个是阉割版的正则，只有非常简单的功能， 表达上略有不同的地方是它用%来代替\，比如%d表示的其实是perl正则里的\d
+
 ###三. 基本正则入门
+
 这里只讲一些最基本的正则知识
 ######首先是单个字符的表示方法：######
 a \d \w [a-z] [0-9] . \s \S \W
@@ -56,6 +61,7 @@ a是指a这个字符
 域名: ^http://([\w\-\.]+)
 
 对正则想进一步学习的，可以看一下perl文档 http://perldoc.perl.org/perlre.html
+
 ####四. 正则的使用范围和局限性
 正则通常用在需要做一些简单匹配字符串的地方， 比如网页抓取下来后的分析， 日志的分析等等，
 
@@ -64,19 +70,25 @@ a是指a这个字符
 正则也可以写得非常的复杂， 但是通常来说很难记住， 写完几天后回头看基本需要重新分析自己写的正则
 
 正则的贪婪匹配没用对 会影响性能， 这点也要注意
+
 ####五. PEG的出现
 Bryan Ford 在2004年发表了一篇论文（Parsing Expression Grammars） 从理论上提出了PEG, 你可以定义一组规则(patern), 把这些规则组合起来用来表示一个grammar, 用来解析目标字符串。
 
 Lua作者之一roberto 在lua里实现了 PEG， 也就是我们今天要提到的lpeg
+
 ####六. PEG的用途
 我们这里不使用编译原理的术语来描述 PEG能干嘛。
 
 我们可以使用PEG来写你知道的大多数编程语言的parser, 或者你也可以自定义一些文件格式， 或者DSL（专用领域语言）, 用PEG可以很容易把这些东西解析出你要的数据结构（通常是你解析出各个token之后按照你要的格式把它们塞到一个lua table里 ）
 
 包括我们可以非常简单的用20行Lua代码（lpeg）就可以写完一个JSON字符串的parser, 云风在pbc里也是使用了lpeg对google protobuffer的 数据文件进行了解析
+
 ####七. LPEG入门
+
 同样的，我们来看LPEG里如何定义一个patarn来进行匹配的
+
 ######基本的patern定义
+
 local patt = P(“abc”) --可以匹配ab这个字符串
 local patt = S(“ \t”) --S的意思是Set， 可以匹配空格或者\t， 类似于正则里的[ \t]
 local patt = R(“AZ”) R(“09”) --R的意思是Range, 等同于正则里的[A-Z],[0-9]
@@ -86,14 +98,18 @@ patt ^ n
 
 n >= 0 时，表示至少匹配n次
 n <0 时, 表示最多匹配n次
+
 ######Pattern逻辑组合
+
 patt1 * patt2 先满足patt1 再满足patt2
 patt1 + patt2 满足了patt1 或者满足了patt2
 patt1 -patt2 满足patt1而且不满足patt2
 -patt2 = P(“”) - patt2 不满足patt2
 
 注意lpeg对运算符做了重载， * + / - 这些运算符只要任意一边有一个对象是lpeg patern, 那么另外一边也会被转成pattern
+
 ######Pattern 例子
+
 我们重新把上面正则里的例子拿出来用lpeg重写一下：
 
 日期: R(“09”)^4 * ”-“ * R(“09”)^2 *”-“ * R(“09”)^2
@@ -105,7 +121,9 @@ patt1 -patt2 满足patt1而且不满足patt2
 local result = patt:match( text)
 如果匹配不上, result为nil
 如果可以匹配，result的值取决于patt有没有定义返回值
+
 ###### <a name="capture"></a>Pattern 返回值的定义
+
 我们写lpeg并不是只是为了匹配， 我们需要在匹配中捕获我们要的数据， 然后存到我们要的地方去。
 
 捕获在lpeg里， 主要是通过下面的定义：
@@ -167,10 +185,15 @@ local tbl = patt:match("...")
 更多的lpeg例子，可以参考
 
 http://lua-users.org/wiki/LpegRecipes
+
 http://www.inf.puc-rio.br/~roberto/lpeg/#ex
+
 ####八. 使用lpeg写一个Json parser
+
 下面是我们解决问题的几个步骤
+
 ######1. 分析目标， 自上而下就行分解， 写出伪生成式
+
 首先我们要熟悉和分析目标Json数据结构，然后按照我们的理解，把它进行分解。
 
 伪生成式是我们随手写的， 并不是正规编译原理里的生成式。
@@ -187,6 +210,7 @@ number <-  正负数
 ```
 
 ######2. 根据伪生成式， 使用lpeg实现匹配
+
 注意我们这里不考虑str的双引号中间含有\"这种转义符
 ```language-perl
 local S = lpeg.S; local P = lpeg.P; local R =lpeg.R; local V = lpeg.V
@@ -212,6 +236,7 @@ local gramma = P(
 ```
 
 ######3. 根据我们的需要添加捕获，修改pattern写法
+
 ```language-perl
 local S = lpeg.S; local P = lpeg.P; local R =lpeg.R; local V = lpeg.V
 local Space = S(" \n\t")^0
@@ -236,10 +261,13 @@ local gramma = P(
 ```
 
 然后来测试一下：
+
 ```language-perl
 local t = gramma:match('{"a#" : "b","g":{"g1": "gv", "g2":2, "g33":[1,"ggg",3]}}')
 ```
+
 打印出来这样的结构：
+
 ```language-perl
 -     "a#" = "b"
 -     "g" = {
