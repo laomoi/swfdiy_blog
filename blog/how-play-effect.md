@@ -297,13 +297,13 @@ src为本图形某像素点的颜色
 
 dest为目标像素点的原来颜色
 
-新颜色 = src.rgb *  src.alpha + dest.rgb*(1-src.alpha )
+新颜色 = src.rgb \*  src.alpha + dest.rgb\*(1-src.alpha )
 
 我们可以调整blend方法来修改这个默认公式.
 
 #### 2) pre-multipled alpha
 
-我们看看上面这个公式里src.rgb * src.alpha, 我们可以把这个计算优化掉, 让图片在导出的时候, 就让它每个像素的rgb 都乘以alpha(这个过程叫alpha premultipled), 这样虽然导出来的图片会有点怪, 但是在游戏渲染的时候, 我们可以告诉它我们这个纹理已经是预先乘过alpha了, 你在blend的时候就可以少做一些乘法运算了.  
+我们看看上面这个公式里src.rgb \* src.alpha, 我们可以把这个计算优化掉, 让图片在导出的时候, 就让它每个像素的rgb 都乘以alpha(这个过程叫alpha premultipled), 这样虽然导出来的图片会有点怪, 但是在游戏渲染的时候, 我们可以告诉它我们这个纹理已经是预先乘过alpha了, 你在blend的时候就可以少做一些乘法运算了.  
 
 通过这个办法我们可以提高一些渲染性能.
 
