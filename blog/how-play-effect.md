@@ -6,7 +6,7 @@ title: 特效动画的播放机制
 tags: render 
 category: cocos2d-x
 status: publish
-summary: 我们来谈谈特效实现
+summary: 
 -->
 
 <!-- ![gitblog-logo](./img/logo_64x64.png)
