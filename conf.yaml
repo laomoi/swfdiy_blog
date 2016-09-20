@@ -1,0 +1,28 @@
+#GitBlog配置文件，使用4个空格代替Tab
+---
+url: /
+title: 逆水行舟
+subtitle: 
+theme: simple
+enableCache: false
+highlight: true
+mathjax: true
+duoshuo: laomoi
+baiduAnalytics:
+keywords:  swf
+description:  
+version: 2.2
+author:
+    name: luodx
+    email: laomoi@qq.com
+    github: laomoi
+    weibo: laomoi
+    avatar:
+blog:
+    recentSize: 5
+    pageSize: 6
+    pageBarSize: 5
+    allBlogsForPage: false
+text:
+    title: 
+    intro: 
